@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>😊 Emoji Mood Detector</title>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f5f5f5;
+  padding: 40px;
+}
+
+input {
+  padding: 10px;
+  width: 60%;
+  font-size: 16px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+#output {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #333;
+}
+
+</style>
+</head>
+<body>
+  <h2>😊 Type Your Mood</h2>
+  <input id="moodInput" placeholder="e.g. happy, sad, tired..." />
+  <button onclick="detectMood()">Detect Mood</button>
+
+  <div id="output"></div>
+
+  <script>
+function detectMood() {
+  const mood = document.getElementById("moodInput").value.trim().toLowerCase();
+  const output = document.getElementById("output");
+
+  output.innerHTML = ""; // Clear previous result
+
+  let emoji = "";
+  let message = "";
+
+  switch (mood) {
+    case "happy":
+      emoji = "😄";
+      message = "That's great! Keep smiling!";
+      break;
+    case "sad":
+      emoji = "😢";
+      message = "It's okay to feel sad. Better days are coming!";
+      break;
+    case "angry":
+      emoji = "😡";
+      message = "Take a deep breath. Everything will be fine.";
+      break;
+    case "tired":
+      emoji = "😴";
+      message = "Rest well. You deserve it!";
+      break;
+    case "excited":
+      emoji = "🤩";
+      message = "Woohoo! Keep that energy!";
+      break;
+    default:
+      emoji = "🤔";
+      message = "I’m not sure what that mood is, but I’m here for you!";
+  }
+
+  const p = document.createElement("p");
+  p.textContent = `${emoji} ${message}`;
+  output.appendChild(p);
+}
+
+  </script>
+</body>
+</html>

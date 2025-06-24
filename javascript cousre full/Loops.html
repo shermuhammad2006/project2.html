@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+javscript loops
+ parsent: convert string into number.use of this ( number.parsent(value of your string))
+
+
+
+    <h1>loops</h1>
+    <script>
+// loops first exercise//
+const cart = [
+  { productName: "T-shirt", price: 20 },
+  { productName: "Jeans", price: 40 },
+  { productName: "Hat", price: 10 }
+];
+let targetprice = 0;
+for(const product of cart){
+    console.log(`Product: ${product.productName}, Price: $${product.price}`)
+ targetprice += product.price;
+ console.log("your total amount" + targetprice+"Rs")
+}
+
+
+// Will print 4 + 10 = 14
+
+</script>
+</body>
+
+</html>

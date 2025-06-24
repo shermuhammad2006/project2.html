@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎬 Movie Search</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #fff;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 250px;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      margin-left: 10px;
+      background-color: #ff4c60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #e03b50;
+    }
+
+    #results {
+      margin-top: 30px;
+    }
+
+    #results p {
+      background-color: #1e1e1e;
+      padding: 12px;
+      margin: 10px auto;
+      width: 60%;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255, 76, 96, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🎬 Movie Search</h2>
+  <input id="searchBox" placeholder="Type movie name..." />
+  <button onclick="searchMovie()">Search</button>
+  <div id="results"></div>
+
+  <script>
+    const movies = [
+      { title: "Bat man", genre: "Action" },
+      { title: "Family guy", genre: "Comedy" },
+      { title: "Conjuring", genre: "Horror" },
+    ];
+
+    function searchMovie() {
+      const input = document.getElementById("searchBox").value.toLowerCase();
+      const result = document.getElementById("results");
+      result.innerHTML = "";
+
+      const matched = movies.filter(function(movie) {
+        return movie.title.toLowerCase().includes(input);
+      });
+
+      if (matched.length === 0) {
+        result.textContent = "❌ No movies found";
+      } else {
+        matched.map(function(movie) {
+          let p = document.createElement("p");
+          let category = "";
+
+          switch (movie.genre) {
+            case "Action":
+              category = "Action Movie";
+              break;
+            case "Horror":
+              category = "Horror Movie";
+              break;
+            case "Comedy":
+              category = "Comedy Movie";
+              break;
+          }
+
+          p.textContent = `${movie.title} - ${category}`;
+          result.appendChild(p);
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>

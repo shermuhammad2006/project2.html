@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task UI - Mobile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      background: #fddfb2;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 25px;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .date {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 15px;
+    }
+
+    .search-bar {
+      margin: 15px 0;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 25px;
+      border: none;
+      background: #f0f0f0;
+    }
+
+    .category-title {
+      font-weight: bold;
+      font-size: 1rem;
+      margin: 10px 0 8px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .tag {
+      background: #e0e0e0;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+
+    .task {
+      background: #f6f6f6;
+      border-radius: 15px;
+      padding: 12px 15px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .task-time {
+      text-align: right;
+      font-size: 0.75rem;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .delete-btn {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      background: transparent;
+      border: none;
+      color: red;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .add-task {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .add-task button {
+      background: #1a73e8;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .input-area {
+      margin-top: 15px;
+    }
+
+    .input-area input,
+    .input-area select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 20px;
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">Today</div>
+    <div class="date">18 Jun. 2019, Tuesday</div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search..." />
+    </div>
+
+    <div class="category">
+      <div class="category-title">Category</div>
+      <div class="tags">
+        <div class="tag">Work</div>
+        <div class="tag">Meeting</div>
+        <div class="tag">Design</div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="ip" placeholder="Enter your task..." />
+      <select id="category">
+        <option value="Work">Work</option>
+        <option value="home">Home</option>
+        <option value="study">Study</option>
+      </select>
+    </div>
+
+    <div id="task"></div>
+
+    <div class="add-task">
+      <button onclick="addTask()">+ Add new task</button>
+    </div>
+  </div>
+
+  <script>
+    let tasks = [];
+
+    function addTask() {
+      const input = document.getElementById("ip").value.trim();
+      const category = document.getElementById("category").value;
+
+      if (input === "") {
+        alert("Please write something");
+        return;
+      }
+
+      const newTask = {
+        name: input,
+        category: category,
+        id: Date.now() // Unique ID for each task
+      };
+
+      tasks.push(newTask);
+      document.getElementById("ip").value = "";
+      displayTasks();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(task => task.id !== id);
+      displayTasks();
+    }
+
+    function displayTasks() {
+      const taskList = document.getElementById("task");
+      taskList.innerHTML = "";
+
+      tasks.forEach(task => {
+        let icon = "";
+        switch (task.category) {
+          case "Work":
+            icon = "💼";
+            break;
+          case "home":
+            icon = "🏠";
+            break;
+          case "study":
+            icon = "📚";
+            break;
+        }
+
+        let div = document.createElement("div");
+        div.className = "task";
+
+        div.innerHTML = `
+          <div>${icon} ${task.name}</div>
+          <div class="task-time" id="time-${task.id}"></div>
+          <button class="delete-btn" onclick="deleteTask(${task.id})">❌</button>
+        `;
+
+        taskList.appendChild(div);
+      });
+    }
+
+    // Update live time every second
+    setInterval(() => {
+      tasks.forEach(task => {
+        const timeEl = document.getElementById("time-" + task.id);
+        if (timeEl) {
+          const now = new Date();
+          timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+      });
+    }, 1000);
+  </script>
+</body>
+</html>
+
+

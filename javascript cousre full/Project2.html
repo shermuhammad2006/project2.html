@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather App UI Clone</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f1eaff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .app {
+      width: 360px;
+      background-color: #fff;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .top {
+      position: relative;
+      background-image: url('./sunny.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      padding: 20px;
+      min-height: 250px;
+      transition: background-image 0.5s ease;
+    }
+
+    .top-overlay {
+      background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.2));
+      border-radius: 0 0 20px 20px;
+      padding: 20px;
+      height: 100%;
+    }
+
+    .temp-container {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      gap: 15px;
+    }
+
+    .sun-icon {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .top .temp {
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .top .feels {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .search-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-input {
+      width: 120px;
+      padding: 8px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      background-color: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .search-input:focus {
+      width: 140px;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.8);
+      font-style: italic;
+    }
+
+    .search-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.3);
+      background-color: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .datetime {
+      font-size: 0.9rem;
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+    }
+
+    .tabs button {
+      padding: 8px 14px;
+      border-radius: 15px;
+      border: none;
+      background-color: #e6dfff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: #f6f2ff;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .forecast {
+      background-color: #f6f2ff;
+      padding: 10px 20px 20px;
+      border-radius: 20px;
+      margin: 0 20px 20px;
+    }
+
+    .forecast h3 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .hourly {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+
+    .hourly div {
+      text-align: center;
+      flex: 1;
+    }
+
+    .hourly div span,
+    .hourly div img {
+      display: block;
+      margin: 2px auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="top" id="topSection">
+      <div class="top-overlay">
+        <div class="search-container">
+          <input type="text" class="search-input" id="cityInput" placeholder="Search city...">
+          <button class="search-btn" id="searchBtn">🔍</button>
+        </div>
+        <h2 id="cityname">Kharkiv, Ukraine</h2>
+        <div class="temp-container">
+          <img id="weatherIcon" class="sun-icon" src="./sun (1).png" alt="icon">
+          <div class="temp" id="temperature">3°</div>
+        </div>
+        <div class="feels" id="feelsLike">Feels like -2°</div>
+        <div class="datetime" id="datetime">--</div>
+        <div class="tabs">
+          <button class="active">Today</button>
+          <button>Tomorrow</button>
+          <button>10 days</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="card"><h4>Wind Speed</h4><p id="windSpeed">--</p></div>
+      <div class="card"><h4>Rain Chance</h4><p id="rainChance">--</p></div>
+      <div class="card"><h4>Pressure</h4><p id="pressure">--</p></div>
+      <div class="card"><h4>UV Index</h4><p id="uvIndex">--</p></div>
+    </div>
+
+    <div class="forecast">
+      <h3>Hourly Forecast</h3>
+      <div class="hourly" id="hourlyForecast"></div>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById("cityInput");
+    const searchBtn = document.getElementById("searchBtn");
+
+    async function checkweather(city) {
+      const apikey = "9003b0cd6313abae9e27201b68b97833";
+      const apiurl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric`;
+
+      try {
+        const response = await fetch(apiurl);
+        const data = await response.json();
+
+        if (data.cod === 200) {
+          document.getElementById("cityname").innerText = `${data.name}, ${data.sys.country}`;
+          document.getElementById("temperature").innerText = `${Math.round(data.main.temp)}°`;
+          document.getElementById("feelsLike").innerText = `Feels like ${Math.round(data.main.feels_like)}°`;
+          document.getElementById("windSpeed").innerText = `${Math.round(data.wind.speed * 3.6)} km/h`;
+          document.getElementById("pressure").innerText = `${data.main.pressure} hPa`;
+          document.getElementById("datetime").innerText = new Date().toLocaleString();
+
+          const main = data.weather[0].main;
+          const icon = document.getElementById("weatherIcon");
+          const topSection = document.getElementById("topSection");
+
+          if (main === "Clouds") {
+            icon.src = "./cloud.png";
+            topSection.style.backgroundImage = "url('./cl.jpg')";
+          } else if (main === "Rain") {
+            icon.src = "./rain.png";
+            topSection.style.backgroundImage = "url('./barain.jpg')";
+          } else if (main === "Clear") {
+            icon.src = "./sun (1).png";
+            topSection.style.backgroundImage = "url('./sunny.jpg')";
+          } else if (main === "Mist") {
+            icon.src = "./mist.png";
+            topSection.style.backgroundImage = "url('./mis.jpg')";
+          } else if (main === "Drizzle") {
+            icon.src = "./rain.png";
+            topSection.style.backgroundImage = "url('./drizz.jpg')";
+          } else {
+            icon.src = "./default.png";
+            topSection.style.backgroundImage = "url('./bg-default.jpg')";
+          }
+
+          input.value = '';
+        } else {
+          alert("City not found");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error fetching weather data.");
+      }
+    }
+
+    async function getHourlyForecast(city) {
+      const apikey = "9003b0cd6313abae9e27201b68b97833";
+      const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric`;
+
+      try {
+        const response = await fetch(forecastUrl);
+        const data = await response.json();
+
+        const hourlyDiv = document.getElementById("hourlyForecast");
+        hourlyDiv.innerHTML = "";
+
+        for (let i = 0; i < 5; i++) {
+          const item = data.list[i];
+          const temp = Math.round(item.main.temp) + "°";
+          const iconCode = item.weather[0].icon;
+          const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
+          const time = new Date(item.dt * 1000).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          });
+
+          hourlyDiv.innerHTML += `
+            <div>
+              <span>${i === 0 ? "Now" : time}</span>
+              <img src="${iconUrl}" width="28" height="28" />
+              <span>${temp}</span>
+            </div>
+          `;
+        }
+      } catch (err) {
+        console.error("Hourly forecast error:", err);
+      }
+    }
+
+    function performSearch() {
+      const cityName = input.value.trim();
+      if (cityName) {
+        checkweather(cityName);
+        getHourlyForecast(cityName);
+      }
+    }
+
+    searchBtn.addEventListener("click", performSearch);
+    input.addEventListener("keypress", e => {
+      if (e.key === "Enter") performSearch();
+    });
+    input.addEventListener("focus", () => input.style.transform = "scale(1.02)");
+    input.addEventListener("blur", () => input.style.transform = "scale(1)");
+  </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport " content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    
+  <h1>🎯 Guess the Number!</h1>
+  <div class="game-box">
+    <input type="number" id="guessInput" placeholder="Enter a number (1-100)" min="1" max="100"/>
+    <br />
+    <button onclick="checkGuess()">Guess</button>
+    <button onclick="resetGame()">Reset</button>
+    <div class="feedback" id="feedback"></div>
+    <div class="score" id="scoreDisplay"></div>
+  </div>
+
+
+
+   
+ <script>
+    
+/*const user = [{ firstName: "jhon", LastName: "deo" }];
+
+let arr = user.map(user => `${user.firstName} ${user.LastName}`);
+
+console.log(arr);
+
+const number=[1,2,3,4];
+let square = number.map(function(value){
+    return value*value
+});
+console.log(square)
+
+const product = [
+    { name: "laptop", price: 1200, instock: true },
+    { name: "handphone", price: 1400, instock: false },
+    { name: "iphone", price: 2000, instock: true }
+];
+
+const total = product.map(item => {
+    return {
+        ...item,
+        status: item.instock ? "instock" : "outstock"
+    };
+});
+
+
+// game of guessing numeber;
+let target = Math.floor(Math.random()*100+1)
+let guess;
+let attempt = 0;
+let score;
+while(true){
+    guess = prompt("enter the number")
+    if(guess === null){
+        alert("cancel");
+        break;
+    }
+    guess  = Number(guess);
+    
+    if(guess === target){
+        score = 100 - attempt + 1;
+        alert(`correct${attempt},score${score}`);
+        break;
+        }else if(guess> target){
+            alert("too hight")
+ 
+        }else if (guess<target){
+            alert("to low")
+        }
+}
+*/
+let target = Math.floor(Math.random() * 100 + 1);
+let attempt = 0;
+let gameover = false;
+
+function checkGuess() {
+  if (gameover) return;
+
+  const input = document.getElementById("guessInput");
+  const feedback = document.getElementById("feedback");
+  const scoreDisplay = document.getElementById("scoreDisplay");
+
+  let guess = Number(input.value);
+  if (!guess || guess < 1 || guess > 100) {
+    feedback.textContent = "Please enter a number between 1 and 100.";
+    return;
+  }
+
+  attempt++;
+
+  if (guess === target) {
+    let score = 100 - attempt + 1;
+    feedback.textContent = `🎉 Wow! You got it in ${attempt} attempts!`;
+    scoreDisplay.textContent = `🏆 Your score is: ${score}`;
+    gameover = true;
+  } else if (guess > target) {
+    feedback.textContent = "📈 Too high!";
+  } else {
+    feedback.textContent = "📉 Too low!";
+  }
+}
+
+function reset() {
+  target = Math.floor(Math.random() * 100 + 1);
+  attempt = 0;
+  gameover = false;
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("scoreDisplay").textContent = "";
+  document.getElementById("guessInput").value = "";
+}
+
+
+</script>
+</body>
+
+</html>
+
+
