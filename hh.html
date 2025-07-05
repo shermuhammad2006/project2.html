@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karachi Electricity Bill Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Karachi Electricity Tracker</h1>
+                        <p>Monitor your K-Electric consumption & bills</p>
+                    </div>
+                </div>
+                <div class="status-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12,6 12,12 16,14"></polyline>
+                    </svg>
+                    <span>Live Tracking</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <p class="stat-label">Total Units Consumed</p>
+                            <p class="stat-value" id="totalUnitsConsumed">0</p>
+                            <p class="stat-unit">Units</p>
+                        </div>
+                        <div class="stat-icon blue">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="20" x2="12" y2="10"></line>
+                                <line x1="18" y1="20" x2="18" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="16"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <p class="stat-label">Estimated Bill Amount</p>
+                            <p class="stat-value" id="estimatedBill">Rs. 0</p>
+                            <p class="stat-unit">Current period</p>
+                        </div>
+                        <div class="stat-icon green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <p class="stat-label">Average Daily Usage</p>
+                            <p class="stat-value" id="avgDailyUsage">0</p>
+                            <p class="stat-unit">Units per day</p>
+                        </div>
+                        <div class="stat-icon purple">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <p class="stat-label">Predicted Monthly Bill</p>
+                            <p class="stat-value" id="predictedMonthlyBill">Rs. 0</p>
+                            <p class="stat-unit">Based on avg usage</p>
+                        </div>
+                        <div class="stat-icon orange">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12,6 12,12 16,14"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="content-grid">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <!-- Meter Reading Form -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon blue">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                                </svg>
+                            </div>
+                            <div class="card-title">
+                                <h2>Calculate Units & Bill</h2>
+                                <p>Enter your current and previous meter readings</p>
+                            </div>
+                        </div>
+
+                        <form id="meterForm" class="meter-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="previousReading">Previous Reading (Units)</label>
+                                    <div class="input-wrapper">
+                                        <input type="number" id="previousReading" placeholder="Enter previous units (e.g., 12000)" step="0.1" min="0" required>
+                                        <span class="input-unit">kWh</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="currentReading">Current Reading (Units)</label>
+                                    <div class="input-wrapper">
+                                        <input type="number" id="currentReading" placeholder="Enter current units (e.g., 12345)" step="0.1" min="0" required>
+                                        <span class="input-unit">kWh</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="billingDays">Billing Period (Days)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="billingDays" placeholder="Enter number of days (e.g., 30)" min="1" max="365" value="30" required>
+                                    <span class="input-unit">days</span>
+                                </div>
+                            </div>
+
+                            <button type="button" onclick="calculatetotal()" class="submit-btn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 11H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h4l3 3V8l-3 3z"></path>
+                                    <path d="M22 9l-6 6"></path>
+                                    <path d="M16 9l6 6"></path>
+                                </svg>
+                                Calculate Bill
+                            </button>
+                        </form>
+
+                        <!-- Results Display -->
+                        <div id="calculationResults" class="results-section" style="display: none;">
+                            <div class="result-card">
+                                <h3>Calculation Results</h3>
+                                <div class="result-grid">
+                                    <div class="result-item">
+                                        <span class="result-label">Units Consumed:</span>
+                                        <span class="result-value" id="resultUnitsConsumed">0</span>
+                                    </div>
+                                    <div class="result-item">
+                                        <span class="result-label">Estimated Bill:</span>
+                                        <span class="result-value highlight" id="resultEstimatedBill">Rs. 0</span>
+                                    </div>
+                                    <div class="result-item">
+                                        <span class="result-label">Daily Average:</span>
+                                        <span class="result-value" id="resultDailyAverage">0 units/day</span>
+                                    </div>
+                                    <div class="result-item">
+                                        <span class="result-label">Cost per Unit:</span>
+                                        <span class="result-value" id="resultCostPerUnit">Rs. 0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <h4>💡 How to use this calculator</h4>
+                            <ul>
+                                <li>• Enter your previous meter reading (from last bill)</li>
+                                <li>• Enter your current meter reading</li>
+                                <li>• Specify the billing period in days</li>
+                                <li>• Get instant calculation of units consumed and estimated bill</li>
+                                <li>• View your average daily consumption pattern</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Usage Analysis -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon purple">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="20" x2="12" y2="10"></line>
+                                    <line x1="18" y1="20" x2="18" y2="4"></line>
+                                    <line x1="6" y1="20" x2="6" y2="16"></line>
+                                </svg>
+                            </div>
+                            <div class="card-title">
+                                <h2>Usage Analysis</h2>
+                                <p>Your electricity consumption patterns</p>
+                            </div>
+                        </div>
+
+                        <div class="usage-stats">
+                            <div class="usage-stat">
+                                <p class="usage-value" id="totalCalculations">0</p>
+                                <p class="usage-label">Total Units</p>
+                            </div>
+                            <div class="usage-stat">
+                                <p class="usage-value" id="avgUnitsPerCalc">0</p>
+                                <p class="usage-label">Avg units per calc</p>
+                            </div>
+                            <div class="usage-stat trend" id="trendStat">
+                                <div class="trend-content">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    <span>Stable</span>
+                                </div>
+                                <p class="usage-label">Usage trend</p>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <h4>Recent Calculations Pattern</h4>
+                            <div class="chart" id="usageChart">
+                                <div class="chart-bar" style="height: 20%"></div>
+                                <div class="chart-bar" style="height: 30%"></div>
+                                <div class="chart-bar" style="height: 15%"></div>
+                                <div class="chart-bar" style="height: 40%"></div>
+                                <div class="chart-bar" style="height: 25%"></div>
+                                <div class="chart-bar" style="height: 35%"></div>
+                                <div class="chart-bar" style="height: 20%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="right-column">
+                    <!-- Bill Prediction -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon green">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                </svg>
+                            </div>
+                            <div class="card-title">
+                                <h2>Bill Prediction</h2>
+                                <p>Based on your usage patterns</p>
+                            </div>
+                        </div>
+
+                        <div class="prediction-cards">
+                            <div class="prediction-item">
+                                <h4>Next 30 Days</h4>
+                                <div class="prediction-value-container">
+                                    <span class="prediction-value" id="next30DaysBill">Rs. 0</span>
+                                    <span class="prediction-units" id="next30DaysUnits">0 units</span>
+                                </div>
+                            </div>
+                            
+                            <div class="prediction-item">
+                                <h4>Monthly Average</h4>
+                                <div class="prediction-value-container">
+                                    <span class="prediction-value" id="monthlyAvgBill">Rs. 0</span>
+                                    <span class="prediction-units" id="monthlyAvgUnits">0 units</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tariff-info">
+                            <h4>K-Electric Tariff Rates</h4>
+                            <div class="tariff-list">
+                                <div class="tariff-item">
+                                    <span>0-100 units:</span>
+                                    <span>Rs. 16/unit</span>
+                                </div>
+                                <div class="tariff-item">
+                                    <span>101-200 units:</span>
+                                    <span>Rs. 18/unit</span>
+                                </div>
+                                <div class="tariff-item">
+                                    <span>201-300 units:</span>
+                                    <span>Rs. 22/unit</span>
+                                </div>
+                                <div class="tariff-item">
+                                    <span>301-700 units:</span>
+                                    <span>Rs. 28/unit</span>
+                                </div>
+                                <div class="tariff-item">
+                                    <span>700+ units:</span>
+                                    <span>Rs. 35/unit</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Calculations -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon gray">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14,2 14,8 20,8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10,9 9,9 8,9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="card-title">
+                                <h2>Recent Calculations</h2>
+                                <p>Your latest bill calculations</p>
+                            </div>
+                        </div>
+
+                        <div class="calculations-list" id="recentCalculations">
+                            <div class="empty-state">
+                                <p>No calculations yet. Use the calculator above to get started!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+  <script>
+function getSlabRate(units) {
+    if (units <= 100) return 16;
+    else if (units <= 200) return 18;
+    else if (units <= 300) return 22;
+    else if (units <= 700) return 28;
+    else return 35;
+}
+
+function calculatetotal() {
+    const current = parseFloat(document.getElementById("currentReading").value);
+    const previous = parseFloat(document.getElementById("previousReading").value);
+    const days = parseInt(document.getElementById("billingDays").value);
+
+    if (
+        isNaN(current) || isNaN(previous) || isNaN(days) ||
+        current < previous || days <= 0 || days > 30
+    ) {
+        alert("Please enter valid readings and billing days (1-30)");
+        return;
+    }
+
+    const totalunit = current - previous;
+    const averageDaily = totalunit / days;
+
+    const rate = getSlabRate(totalunit);
+    const estimatedBill = totalunit * rate;
+
+    const remainingDays = 30 - days;
+    const predictedAmount = estimatedBill + (rate * averageDaily * remainingDays);
+
+    const fullMonthUnits = averageDaily * 30;
+    const thirtyDayBill = fullMonthUnits * rate;
+
+    // Display output
+    document.getElementById("totalUnitsConsumed").textContent = totalunit.toFixed(1);
+    document.getElementById("resultUnitsConsumed").textContent = totalunit.toFixed(1) + " units";
+    document.getElementById("avgDailyUsage").textContent = averageDaily.toFixed(2);
+    document.getElementById("resultDailyAverage").textContent = averageDaily.toFixed(2) + " units/day";
+
+    document.getElementById("estimatedBill").textContent = `Rs. ${Math.round(estimatedBill)}`;
+    document.getElementById("predictedMonthlyBill").textContent = `Rs. ${Math.round(predictedAmount)}`;
+    document.getElementById("next30DaysUnits").textContent = fullMonthUnits.toFixed(1) + " units";
+    document.getElementById("next30DaysBill").textContent = `Rs. ${Math.round(thirtyDayBill)}`;
+
+    document.getElementById("calculationResults").style.display = "block";
+}
+</script>
+
+</body>
+</html>
