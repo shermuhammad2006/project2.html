@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000000;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0;
+        }
+
+        /* Main content container */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 30px;
+            text-align: left;
+        }
+
+        .netflix-logo {
+            font-size: 60px;
+            font-weight: 900;
+            color: #e50914;
+            letter-spacing: 3px;
+            margin-bottom: 80px;
+            font-family: Arial, sans-serif;
+        }
+
+        .main-heading {
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            font-family: Arial, sans-serif;
+        }
+
+        .pricing-text {
+            font-size: 20px;
+            color: #cccccc;
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        /* Buttons container */
+        .button-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            height: 70px;
+        }
+
+        .btn {
+            flex: 1;
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-btn {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .free-month-btn {
+            background: #e50914;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 375px) {
+            .netflix-logo {
+                font-size: 50px;
+                margin-bottom: 60px;
+            }
+            
+            .main-heading {
+                font-size: 40px;
+            }
+            
+            .main-container {
+                padding: 30px 25px;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .netflix-logo {
+                font-size: 45px;
+                margin-bottom: 40px;
+            }
+            
+            .main-heading {
+                font-size: 38px;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="netflix-logo">NETFLIX</div>
+        
+        <h1 class="main-heading">
+            WATCH<br>
+            TV SHOWS &<br>
+            MOVIES<br>
+            ANYWHERE.<br>
+            ANYTIME.
+        </h1>
+        
+        <p class="pricing-text">Plans from $7.99 a month.</p>
+    </div>
+
+    <!-- Bottom Buttons -->
+    <div class="button-container">
+        <button class="btn login-btn" ><a href="Login.html">Login</a></button>
+        <button class="btn free-month-btn">Start Free Month</button>
+    </div>
+</body>
+</html>

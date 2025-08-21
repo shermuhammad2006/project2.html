@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style>
+    * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: url(p2.jpg);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .trailer-label {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(0,0,0,0.8);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .volume-btn {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: white;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .volume-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .bell-indicator {
+            position: absolute;
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            background: rgba(0,0,0,0.5);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .content-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9) 30%, #000);
+            padding: 60px 30px 30px;
+        }
+
+        .netflix-logo {
+            color: #e50914;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .series-badge {
+            background: #666;
+            padding: 2px 8px;
+            border-radius: 2px;
+            font-size: 12px;
+            color: white;
+            margin-left: 8px;
+        }
+
+        .title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+
+        .meta-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .match-score {
+            color: #46d369;
+            font-weight: bold;
+        }
+
+        .year {
+            color: #ccc;
+        }
+
+        .rating, .seasons, .quality-badges {
+            background: #555;
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-size: 12px;
+        }
+
+        .play-btn {
+            background: white;
+            color: black;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s ease;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .play-btn:hover {
+            background: rgba(255,255,255,0.8);
+        }
+
+        .play-icon {
+            font-size: 20px;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 1.4;
+            margin-bottom: 16px;
+            color: #ccc;
+        }
+
+        .cast-info {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 16px;
+        }
+
+        .cast-label {
+            color: #ccc;
+            font-weight: 500;
+        }
+
+        .warning {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,193,7,0.2);
+            border: 1px solid #ffc107;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .warning-icon {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-top: 20px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 10px;
+        }
+
+        .action-btn:hover {
+            color: white;
+        }
+
+        .action-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .action-label {
+            font-size: 12px;
+        }
+
+        .check-icon {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 32px;
+            }
+            
+            .content-overlay {
+                padding: 40px 20px 20px;
+            }
+            
+            .meta-info {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+        }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+        <button class="close-btn"><a href="netflixm.html">✕</a></button>
+        
+        <div class="trailer-label">TRAILER</div>
+        
+        <div class="bell-indicator">[bell rings]</div>
+        
+        <button class="volume-btn">🔊</button>
+        
+        <div class="content-overlay">
+            <div class="netflix-logo">
+                <span style="color: #e50914; font-size: 20px; font-weight: bold;">N</span>
+                <span>SERIES</span>
+            </div>
+            
+            <h1 id="title" class="title">13 Reasons Why</h1>
+            
+            <div class="meta-info">
+                <span class="match-score">97% match</span>
+                <span class="year">2019</span>
+                <span class="rating">TV-MA</span>
+                <span class="seasons">3 Seasons</span>
+                <span class="quality-badges">🅳 VISION</span>
+                <span class="quality-badges">HD</span>
+            </div>
+            
+            <button class="play-btn">
+                <span class="play-icon">▶</span>
+                Play
+            </button>
+            
+            <p class="description">
+                Secrets. Lies. Revenge. Everyone at Liberty High has something to hide ... and the truth is about to come out.
+            </p>
+            
+            <div class="cast-info">
+                <span class="cast-label">Cast:</span> Dylan Minnette, Katherine Langford, Alisha Boe<br>
+                <span class="cast-label">Creator:</span> Brian Yorkey
+            </div>
+            
+            <div class="warning">
+                <span class="warning-icon">⚠</span>
+                <span>Content Warning</span>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-btn">
+                    <div class="action-icon check-icon">✓</div>
+                    <div class="action-label">My List</div>
+                </button>
+                <button class="action-btn">
+                    <div class="action-icon">👍</div>
+                    <div class="action-label">Rate</div>
+                </button>
+                <button class="action-btn">
+                    <div class="action-icon">↗</div>
+                    <div class="action-label">Share</div>
+                </button>
+            </div>
+        </div>
+    </div>
+<script>
+        document.querySelector('.play-btn').addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100vh; font-size: 24px; color: #666;">Interface Closed</div>';
+            }, 300);
+        });
+
+        document.querySelector('.volume-btn').addEventListener('click', function() {
+            this.innerHTML = this.innerHTML === '🔊' ? '🔇' : '🔊';
+        });
+
+        // Add click effects to action buttons
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // Simulate trailer playing with subtitle changes
+        const subtitles = [
+            '[bell rings]',
+            '[dramatic music]',
+            '[door slams]',
+            '[whispers]',
+            '[bell rings]'
+        ];
+        
+        let subtitleIndex = 0;
+        setInterval(() => {
+            document.querySelector('.bell-indicator').textContent = subtitles[subtitleIndex];
+            subtitleIndex = (subtitleIndex + 1) % subtitles.length;
+        }, 3000);
+// ------------------------------------
+// ✅ Replace your bottom script with this
+// ------------------------------------
+const movies = [
+  { title: "wednesday",       description: "...", image: "s1.jpg", trailer: "https://www.youtube.com/watch?v=Q73UhUTs6y0" },
+  { title: "Stranger Things", description: "...", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIhAa9iQryKAB4229S52MIyydqyRvHN9Ta8GttWk0CaA3tz3CDF2nHJeE&s", 
+    trailer: "https://www.youtube.com/watch?v=b9EkMc79ZSU" },
+  { title: "The witcher",     description: "...", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqaucGV5CXqgITCiPnaJySy5FpmXk3fJ68HE8509dfxW1GpJL8qRF_rK7x&s=10",
+    trailer: "https://www.youtube.com/watch?v=ndl1W4ltcmg" },
+  { title: "Breaking Bad",    description: "...", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVFA5Cx83O7FsOVj9eJgIK7WxbI3oM21-XwkK2cBDfqAeKhxPO-VFpfYk&s=10",
+    trailer: "https://www.youtube.com/watch?v=HhesaQXLuRY" },
+  { title: "The Matrix",      description: "...", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbwDvq7oPpLWcnGvfjXn97_xwwAoPoGxAhMA&s",
+    trailer: "https://www.youtube.com/watch?v=vKQi3bBA1y8" }
+];
+const action = [
+      { title: "The Sun Brothers", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDbjXhmWTJTNsys_mS_R2siqRuCl7c3wivlKUcEzl36sgP0oSz4jdOG-Y&s" },
+      { title: "Money Heist", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDfMM74xisIvMicPpWp0EEnraU87AXAah3KIlEFdnZNUVAyfPOONgD-rA&s=10" },
+      { title: "Mortal Kombat", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsraujxiPzdcZnXIq56DmDKagM4zfVGdJKa3vXJtaX0wRhZ9IKUPE0hk8&s=10" },
+      { title: "Transformers", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3KQlpi1GzwZXzDy2_vpZ7e5M23p7ZpTLkyg&s" },
+      { title: "Daredevil", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqeh4eWvQV7hhUG76NP7h0f-DxMqlbotS9TJyzE2g6dJTCGJbInufFbHBg&s=10" },
+      { title: "Extraction", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxiS1LaZzL84HNkVXQol3qEKDAJtrQ2txvEJcy0jYEKKfugpG7llUYXhjn&s=10" },
+     { title: "End Game", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQMnNgpRSOx6oCJCI-lcjtsyOoAKBK1_KIKLVNc43a_dTiWd1ur67k66c&s=10" },
+     { title: "Black panther", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQqh5Mkz3JYHofLl7CgayxK1HD6j7FaITMjDP9weFWSe5zksXeBJe0bnlQ&s=10" },
+     { title: "Black panther", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQqh5Mkz3JYHofLl7CgayxK1HD6j7FaITMjDP9weFWSe5zksXeBJe0bnlQ&s=10" },
+     { title: "San andreas", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3NNuTZNS8cxNOK1EFlbnn_tr905-LJrV_vA&s" },
+     { title: "jumanji", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnWEitXv5LL6sxiVfpfNIUjguNgtJUWybBoXanEL6ehvsmoVEpQC9Gqrg&s=10" },
+     { title: "Man of steel", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6V1wjribYDFGzfUdz8Sk32B0dTCdwNyIblA&s" },
+     { title: "Mission impossible", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRg7wB_FbNH1T-F2b0NC-agO5cYh7DhJfjWA&s" },
+     { title: "Vikings", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNryKf5pOI3brxW1y6X-hR5yP0XREiUV1Q-b9YwhgqwWO_YsCzAzuLR8vm&s=10" },
+     { title: "Mission impossible", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjLbVfEzMCAkQDBWI6LgIbso9VAQjp76yzsNgIEDl_N3Gepfi74J34P1E&s=10" },
+     { title: "Witcher", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqaucGV5CXqgITCiPnaJySy5FpmXk3fJ68HE8509dfxW1GpJL8qRF_rK7x&s=10" }
+    ];
+
+
+// KIDS ARRAY  (no description yet → you can add them later)
+const kids = [
+    { title: "Toy Story", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoqwOrUbHXZf_ewAWRjmvj8K9FIq0kV_McWnpq_qBiGx7Ty3ehwth_I8I&s" },
+    { title: "Frozen", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNtERDJr2EGncTklFKWBRIAOTxgwVBm3btmQ&s" },
+    { title: "Finding Nemo", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw9G7ohCqFcBjk9HdHsu7ggAqPbuAarReniWHDd6M9Y-BOgpwtKmsE9dE&s=10" },
+    { title: "The Lion King", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJqY-wlUXPJW4JMA_pvFzkjtPKhsHrTe1W28A_Lx9KxWB9_iymHip5q4DA&s=10" },
+    { title: "Minions", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9JFwSc-oWeb3V988kQC7LhP575SsojGRcI6h_XbwAI9SiC1oI8t_3w-E&s" },
+    { title: "Kung Fu Panda", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROvLuoMYnk9DzUKxwdeLOymf9FDq1f2V_oQGKK4De5osOzhXH567_3plI&s" },
+    { title: "How to Train Your Dragon", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM16wTwPVZdOIoj_lGzynYkDc6AmRb_szN_aPRY_2z0Ym7PI_sN9Sk_Z0&s" }
+];
+const horror = [
+    { title: "The Conjuring", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgSaOiygwq59CIw4FFyUgfK8DX7rKtZ3wHh5Pj-bARKGDrKS5o9-8oLLFj&s=10" },
+    { title: "Insidious", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlUbRxseQXRxs1NB_GV9jDlZdBRjt22k0Yu-xrDSWAAix8CZmsRusCYdY&s=10" },
+    { title: "Annabelle", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRerYYvzf2zhSjYO04XMj2RkUZK-LjSLoddi4tIYOoQCIQRbzdg7cCHMjU&s=10" },
+    { title: "Hereditary", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8oaqBke8FIYXCInzhy5Xz-D6WYhdtM8Nj_w&s" },
+    { title: "A Quiet Place", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhFzDAvABJK7XO4lK-iDTpgOuzmQyE0Ug1s558OBwWo5rQOlg1jPXZnsE&s=10" },
+    { title: "The Nun", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB1t_EVS-hvwjTv3JhRl9-BnX5A_W6VmQRfg&s" },
+    { title: "It", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDbtrZN-3m10VQiBv5KiUnT-IAkZz00OO8IkrAlMw5Ww3xHmUc-bS15Dk&s=10" }
+];
+const params  =new URLSearchParams(window.location.search);
+const type = params.get('type');
+const id  =parseInt(params.get("id"))             
+
+let item;
+if(type==="movies"){
+    item=movies[id]
+}else if(type=="action"){
+    item = action[id]
+}else if(type==="kids"){
+    item=kids[id]
+}else if(type==="horror"){
+    item=horror[id]
+}
+if(item){
+    document.getElementById("title").innerText=item.title;
+    document.querySelector(".description").innerText=item.description;
+document.querySelector(".container").style.backgroundImage=`url(${item.image})`
+    
+}
+</script>
+</body>
+
+</html>

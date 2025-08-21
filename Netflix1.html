@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style>
+         body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2c2c54, #1a1a2e, #16213e);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            top: 0;
+            position: fixed;
+            left: 0;
+            height: 60px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            font-family: 'Georgia', serif;
+        }
+
+        .nav-icons {
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            font-size: 20px;
+        }
+
+        .nav-icons:hover {
+            opacity: 1;
+        }
+
+        .profile-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+            font-weight: bold;
+            color: white;
+        }
+
+        .profile-icon:hover {
+            border-color: #00d4ff;
+        }
+
+        .main-content {
+            margin-top: 60px;
+            padding: 30px 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .nav-button.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a1a2e;
+        }
+
+        .poster-container {
+            max-width: 500px;
+            margin: 0 auto 50px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .poster-image {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .poster-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 40px 30px 30px;
+        }
+
+        .series-badge {
+            background: #e50914;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .poster-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .poster-genres {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .play-button {
+            background: white;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            flex: 1;
+            justify-content: center;
+            min-width: 120px;
+        }
+
+        .play-button:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.05);
+        }
+
+        .list-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            flex: 1;
+            justify-content: center;
+            min-width: 120px;
+        }
+
+        .list-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .play-icon::before {
+            content: "▶";
+            font-size: 16px;
+        }
+
+        .check-icon::before {
+            content: "✓";
+            font-size: 18px;
+        }
+
+        .input {
+            background: transparent;
+            border: none;
+            position: relative;
+            right: 140px;
+            border-bottom: 1px solid #ffffff;
+            color: #ffffff;
+            outline: none;
+            padding: 4px 6px;
+        }
+
+        .slider-container {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+
+        .slider-header {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 20px;
+        }
+
+        .slider-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .slider-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .slider-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .slider-wrapper::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .slide {
+            flex: 0 0 auto;
+            width: 300px;
+            height: 400px;
+            border-radius: 8px;
+            overflow: hidden;
+            scroll-snap-align: start;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .slide:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .slide:hover .slide-overlay {
+            transform: translateY(0);
+        }
+
+        .slide-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .slide-description {
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 15px;
+            }
+
+            .main-content {
+                padding: 20px 15px;
+            }
+
+            .poster-title {
+                font-size: 36px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .button-container {
+                justify-content: center;
+            }
+
+            .logo-text {
+                font-size: 20px;
+            }
+
+            .slide {
+                width: 250px;
+                height: 350px;
+            }
+        }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+        <div class="navbar-left">
+            <div class="logo-text">For JudyS.</div>
+        </div>
+        <div class="navbar-right">
+            <div id="text-icon"   class="nav-icons">📡</div>
+            <div id="textps"   onclick="search()" class="nav-icons">🔍</div>
+            <div class="profile-icon">J</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="button-container">
+            <button class="nav-button">Series</button>
+            <button class="nav-button">Films</button>
+          
+            <select class="nav-button" name="category" onchange="location=this.value" >
+                <option select-disabled>Category</option> 
+                
+                <option value="Action.html?type=action">Action</option>
+                <option value="Action.html?type=kids">Kids</option>
+                <option value="Action.html?type=horror">horror</option>
+                
+            </select>
+        </div>
+
+        <div class="poster-container">
+            <img id="slider" class="poster-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIhAa9iQryKAB4229S52MIyydqyRvHN9Ta8GttWk0CaA3tz3CDF2nHJeE&s" alt="Main Poster">
+            <div class="poster-overlay">
+                <div class="series-badge">N SERIES</div>
+                <h1 id="text" class="poster-title">Stranger Things</h1>
+                <div id="category" class="poster-genres">Slick • Psychological • Thriller</div>
+                <div class="action-buttons">
+                    <button class="play-button">
+                        <span class="play-icon"></span>
+                        Play
+                    </button>
+                    <button class="list-button">
+                        <span class="check-icon"></span>
+                        My List
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="slider-container">
+            <h2 class="slider-header">Trending on top</h2>
+            <div class="slider-wrapper" id="sliderTrack1"></div>
+        </div>
+
+        <div class="slider-container">
+            <h2 class="slider-header">Action</h2>
+            <div class="slider-wrapper" id="sliderTrack2"></div>
+        </div>
+        
+        <div class="slider-container">
+            <h2 class="slider-header">Kids</h2>
+            <div class="slider-wrapper" id="sliderTrack3"></div>
+        </div>
+      <div class="slider-container">
+            <h2 class="slider-header">Horror</h2>
+            <div class="slider-wrapper" id="sliderTrack4"></div>
+        </div>
+  
+    </div>
+<script>
+  let images = [
+  {
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIhAa9iQryKAB4229S52MIyydqyRvHN9Ta8GttWk0CaA3tz3CDF2nHJeE&s",
+    text: "Stranger Things",
+    category: "Thriller • Romance • Action"
+  },
+  {
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqaucGV5CXqgITCiPnaJySy5FpmXk3fJ68HE8509dfxW1GpJL8qRF_rK7x&s=10",
+    text: "Witcher",
+    category: "Action • Drama • Mystery"
+  }
+];
+
+let currentIndex = 0;
+
+function changeImage() {
+  currentIndex = (currentIndex + 1) % images.length;
+  document.getElementById("slider").src = images[currentIndex].src;
+  document.getElementById("text").innerText = images[currentIndex].text;
+  document.getElementById("category").innerText = images[currentIndex].category;
+}
+
+setInterval(changeImage, 10000);
+
+const search = () => {
+  let icon = document.getElementById("text-icon");
+  icon.innerHTML = "";
+    
+  let input = document.createElement("input");
+  input.className = "input";
+  input.placeholder = "Enter movies or series";
+  icon.appendChild(input);
+
+    input.addEventListener("input",()=>{
+        SearchMovies(input.value)
+    })
+};
+// MOVIES ARRAY
+const movies = [
+    { title: "Wednesday", description: "Follow the journey of Wednesday Addams at Nevermore Academy.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqaucGV5CXqgITCiPnaJySy5FpmXk3fJ68HE8509dfxW1GpJL8qRF_rK7x&s=10", category: "Horror,mysterey" },
+    { title: "Stranger Things", description: "Supernatural mysteries unfold in the small town of Hawkins, Indiana.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIhAa9iQryKAB4229S52MIyydqyRvHN9Ta8GttWk0CaA3tz3CDF2nHJeE&s", category: "mysterey,Action, suspence" },
+    { title: "The Witcher", description: "A tale of hope and friendship in the most unlikely of places.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqaucGV5CXqgITCiPnaJySy5FpmXk3fJ68HE8509dfxW1GpJL8qRF_rK7x&s=10", category: "Action, Adventure" },
+    { title: "Breaking Bad", description: "A high school chemistry teacher turned methamphetamine manufacturer.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVFA5Cx83O7FsOVj9eJgIK7WxbI3oM21-XwkK2cBDfqAeKhxPO-VFpfYk&s=10", category: "Action,Thriller" },
+    { title: "The Matrix", description: "Reality is not what it seems in this cyberpunk thriller.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbwDvq7oPpLWcnGvfjXn97_xwwAoPoGxAhMA&s", category: "Action,Thriller" },
+    { title: "Game of Thrones", description: "Political intrigue and fantasy in the Seven Kingdoms of Westeros.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0nN3ALyUGvzZDeqWMzlrrtDPBvwXb0VrnVQ&s", category: "Action,Thriller,Adventure" },
+    { title: "The Dark Knight", description: "Batman faces his greatest challenge against the Joker.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3fR4_jAC2tyVjsvvjsKx2ka2l4V6poJZTpCiWexrSspP6bV6o8g_p9hU&s=10", category: "Action,thriller" },
+    { title: "Vikings", description: "Epic saga of legendary Norse hero Ragnar Lothbrok.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr9WxKqrxdAxUfKrXFcwFxr6YbifaVbPFQamcfXPRRsDSYas63tGzQdfQ&s=10", category: "Action,thriller,Adventure" }
+];
+
+// ACTION ARRAY
+    const action = [
+      { title: "The Sun Brothers", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDbjXhmWTJTNsys_mS_R2siqRuCl7c3wivlKUcEzl36sgP0oSz4jdOG-Y&s" },
+      { title: "Money Heist", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDfMM74xisIvMicPpWp0EEnraU87AXAah3KIlEFdnZNUVAyfPOONgD-rA&s=10" },
+      { title: "Mortal Kombat", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsraujxiPzdcZnXIq56DmDKagM4zfVGdJKa3vXJtaX0wRhZ9IKUPE0hk8&s=10" },
+      { title: "Transformers", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3KQlpi1GzwZXzDy2_vpZ7e5M23p7ZpTLkyg&s" },
+      { title: "Daredevil", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqeh4eWvQV7hhUG76NP7h0f-DxMqlbotS9TJyzE2g6dJTCGJbInufFbHBg&s=10" },
+      { title: "Extraction", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxiS1LaZzL84HNkVXQol3qEKDAJtrQ2txvEJcy0jYEKKfugpG7llUYXhjn&s=10" },
+     { title: "End Game", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQMnNgpRSOx6oCJCI-lcjtsyOoAKBK1_KIKLVNc43a_dTiWd1ur67k66c&s=10" },
+     { title: "Black panther", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQqh5Mkz3JYHofLl7CgayxK1HD6j7FaITMjDP9weFWSe5zksXeBJe0bnlQ&s=10" },
+     { title: "Black panther", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQqh5Mkz3JYHofLl7CgayxK1HD6j7FaITMjDP9weFWSe5zksXeBJe0bnlQ&s=10" },
+     { title: "San andreas", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3NNuTZNS8cxNOK1EFlbnn_tr905-LJrV_vA&s" },
+     { title: "jumanji", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnWEitXv5LL6sxiVfpfNIUjguNgtJUWybBoXanEL6ehvsmoVEpQC9Gqrg&s=10" },
+     { title: "Man of steel", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6V1wjribYDFGzfUdz8Sk32B0dTCdwNyIblA&s" },
+     { title: "Mission impossible", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRg7wB_FbNH1T-F2b0NC-agO5cYh7DhJfjWA&s" },
+     { title: "Vikings", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNryKf5pOI3brxW1y6X-hR5yP0XREiUV1Q-b9YwhgqwWO_YsCzAzuLR8vm&s=10" },
+     { title: "Mission impossible", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjLbVfEzMCAkQDBWI6LgIbso9VAQjp76yzsNgIEDl_N3Gepfi74J34P1E&s=10" },
+     { title: "Witcher", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqaucGV5CXqgITCiPnaJySy5FpmXk3fJ68HE8509dfxW1GpJL8qRF_rK7x&s=10" }
+    ];
+
+// KIDS ARRAY  (no description yet → you can add them later)
+const kids = [
+    { title: "Toy Story", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoqwOrUbHXZf_ewAWRjmvj8K9FIq0kV_McWnpq_qBiGx7Ty3ehwth_I8I&s" },
+    { title: "Frozen", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNtERDJr2EGncTklFKWBRIAOTxgwVBm3btmQ&s" },
+    { title: "Finding Nemo", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw9G7ohCqFcBjk9HdHsu7ggAqPbuAarReniWHDd6M9Y-BOgpwtKmsE9dE&s=10" },
+    { title: "The Lion King", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJqY-wlUXPJW4JMA_pvFzkjtPKhsHrTe1W28A_Lx9KxWB9_iymHip5q4DA&s=10" },
+    { title: "Minions", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9JFwSc-oWeb3V988kQC7LhP575SsojGRcI6h_XbwAI9SiC1oI8t_3w-E&s" },
+    { title: "Kung Fu Panda", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROvLuoMYnk9DzUKxwdeLOymf9FDq1f2V_oQGKK4De5osOzhXH567_3plI&s" },
+    { title: "How to Train Your Dragon", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM16wTwPVZdOIoj_lGzynYkDc6AmRb_szN_aPRY_2z0Ym7PI_sN9Sk_Z0&s" }
+];
+// HORROR ARRAY
+const horror = [
+    { title: "The Conjuring", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZRY9r0m82qXY_XNC8knedgWi4t4VW09nrPmR3cOTpBPgDEypSkbSrCkw&s" },
+    { title: "Insidious", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlUbRxseQXRxs1NB_GV9jDlZdBRjt22k0Yu-xrDSWAAix8CZmsRusCYdY&s=10" },
+    { title: "Annabelle", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRerYYvzf2zhSjYO04XMj2RkUZK-LjSLoddi4tIYOoQCIQRbzdg7cCHMjU&s=10" },
+    { title: "Hereditary", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8oaqBke8FIYXCInzhy5Xz-D6WYhdtM8Nj_w&s" },
+    { title: "A Quiet Place", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhFzDAvABJK7XO4lK-iDTpgOuzmQyE0Ug1s558OBwWo5rQOlg1jPXZnsE&s=10" },
+    { title: "The Nun", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbGGjS37KJAfcIsmYbiboM--J3QWmNsfZ_PdwzZ3jjrs0g7ucGmTgVW4M&s=10" },
+    { title: "It", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDbtrZN-3m10VQiBv5KiUnT-IAkZz00OO8IkrAlMw5Ww3xHmUc-bS15Dk&s=10" }
+];
+
+let sliderTrack1 = document.getElementById("sliderTrack1");
+let sliderTrack2 = document.getElementById("sliderTrack2");
+let sliderTrack3 = document.getElementById("sliderTrack3");
+let sliderTrack4=document.getElementById("sliderTrack4");
+
+// MOVIES SLIDER
+function RenderMovie(list) {
+    sliderTrack1.innerHTML = "";
+    list.forEach((movie, index) => {
+        const slide = document.createElement("div");
+        slide.className = "slide";
+        slide.innerHTML = `
+      <img src="${movie.image}"/>
+      <div class="slide-overlay">
+        <div class="slide-title">${movie.title}</div>
+        <div class="slide-description">${movie.description}</div>
+      </div>
+    `;
+        slide.addEventListener("click", () => {
+            window.location.href = `Detail.html?type=movies&id=${index}`;
+        });
+        sliderTrack1.appendChild(slide);
+    });
+}
+
+// ACTION SLIDER
+function renderAction(list) {
+    sliderTrack2.innerHTML = "";
+    list.forEach((movie, index) => {
+        const slide = document.createElement("div");
+        slide.className = "slide";
+        slide.innerHTML = `
+      <img src="${movie.image}" alt="${movie.title}" />
+      <div class="slide-overlay">
+        <div class="slide-title">${movie.title}</div>
+        <div class="slide-description">${movie.description}</div>
+      </div>
+    `;
+        slide.addEventListener("click", () => {
+            window.location.href = `Detail.html?type=action&id=${index}`;
+        });
+        sliderTrack2.appendChild(slide);
+    });
+}
+
+// KIDS SLIDER
+function RenderKids(list) {
+    sliderTrack3.innerHTML = "";
+    list.forEach((movie, index) => {
+        const slide = document.createElement("div");
+        slide.className = "slide";
+        slide.innerHTML = `
+      <img src="${movie.image}" alt="${movie.title}" />
+      <div class="slide-overlay">
+        <div class="slide-title">${movie.title}</div>
+        <!-- Optional: you can add a description field in the kids array -->
+      </div>
+    `;
+        slide.addEventListener("click", () => {
+            window.location.href = `Detail.html?type=kids&id=${index}`;
+        });
+        sliderTrack3.appendChild(slide);
+    });
+}
+function RenderHorror(list){
+    sliderTrack4.innerHTML=""
+    list.forEach((movie,index)=>{
+        let slide=document.createElement("div");
+        slide.className="slide";
+        slide.innerHTML=`<img src="${movie.image}" alt="${movie.title}" /> <
+div class = "slide-overlay" >
+<div class="slide-title">${movie.title}</div> <
+!--Optional: you can add a description field in the kids array-- >
+    </div>`;
+     slide.addEventListener("click", () => {
+     window.location.href = `Detail.html?type=horror&id=${index}`;
+ });
+    sliderTrack4.appendChild(slide);    
+    });
+   
+    
+}
+
+// SEARCH FUNCTION
+function SearchMovies(keyword) {
+    const filteredMovies = movies.filter(movie =>
+        movie.title.toLowerCase().includes(keyword.toLowerCase()) ||
+        movie.category.toLowerCase().includes(keyword.toLowerCase())
+    );
+    RenderMovie(filteredMovies);
+    
+    const filteredAction = action.filter(movie =>
+        movie.title.toLowerCase().includes(keyword.toLowerCase()) ||
+        movie.description.toLowerCase().includes(keyword.toLowerCase())
+    );
+    renderAction(filteredAction);
+    
+    // filter kids   (only by title for now)
+    const filteredKids = kids.filter(movie =>
+        movie.title.toLowerCase().includes(keyword.toLowerCase())
+    );
+    // horror//
+    RenderKids(filteredKids);
+    
+const filteredHorror=horror.filter(movie=>
+    movie.title.toLowerCase().includes(keyword.toLowerCase())
+);
+RenderHorror(filteredHorror)
+}
+
+// INITIAL RENDER
+RenderMovie(movies);
+renderAction(action);
+RenderKids(kids);
+RenderHorror(horror)

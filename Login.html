@@ -1,0 +1,215 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix - Sign In</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #000000;
+            color: white;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding-top: 40px;
+        }
+
+        .netflix-logo {
+            font-size: 48px;
+            font-weight: 900;
+            color: #e50914;
+            letter-spacing: 2px;
+            margin-bottom: 80px;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            width: 100%;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 20px 0 8px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #666;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-bottom-color: #e50914;
+        }
+
+        .input-field.error {
+            border-bottom-color: #ff4444;
+        }
+
+        .input-label {
+            position: absolute;
+            left: 0;
+            top: 20px;
+            color: #999;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .input-field:focus + .input-label,
+        .input-field:not(:placeholder-shown) + .input-label {
+            top: 0;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .forgot-password {
+            color: #999;
+            font-size: 14px;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .button-container {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .btn {
+            padding: 18px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .sign-in-btn {
+            background: #e50914;
+            color: white;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .facebook-btn {
+            background: #f0f0f0;
+            color: #333;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 375px) {
+            .container {
+                padding: 20px 15px;
+                padding-top: 30px;
+            }
+            
+            .netflix-logo {
+                font-size: 42px;
+                margin-bottom: 60px;
+            }
+            
+            .input-field {
+                padding: 18px 0 6px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="netflix-logo">NETFLIX</div>
+        
+        <form class="form-container">
+            <div class="input-group">
+                <input type="email" id="email" class="input-field" placeholder=" " required>
+                <label class="input-label">Email</label>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="password" class="input-field" placeholder=" " required>
+                <label class="input-label">Password</label>
+            </div>
+            
+            <a href="#" class="forgot-password">Forgot your email and password?</a>
+            
+            <div class="button-container">
+                <button type="button" class="btn sign-in-btn" onclick="handleSignIn()">Sign In</button>
+                <button type="button" class="btn facebook-btn">Login with Facebook</button>
+            </div>
+        </form>
+    </div>
+
+<script>
+    function handleSignIn() {
+        const inputE = document.getElementById("email");
+        const inputP = document.getElementById("password");
+
+        const email = inputE.value.trim();
+        const password = inputP.value.trim();
+
+        inputE.classList.remove("error");
+        inputP.classList.remove("error");
+
+        function check() {
+            return new Promise((resolve, reject) => {
+                // Sample credentials for demonstration
+                if (email === "n" && password === "23443") {
+                    resolve("success");
+                } else {
+                    reject("failed");
+                }
+            });
+        }
+
+        check()
+        .then((val) => {
+            console.log("success");
+            window.location.href = "Netflix1.html";
+        })
+        .catch((error) => {
+            console.log("failed");
+            inputE.classList.add("error");
+            inputP.classList.add("error");
+
+            setTimeout(() => {
+                inputE.classList.remove("error");
+                inputP.classList.remove("error");
+            }, 3000);
+        });
+    }
+</script>
+</body>
+</html>
